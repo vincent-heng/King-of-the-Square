@@ -1,0 +1,14 @@
+{
+    "name": "kots",
+    "version": "0.1.0",
+    "dependencies": {
+		"express": "~3.2",
+		"socket.io": "~1",
+		"ent": "~2.0",
+		"underscore": "~1.6",
+		"colors":"~1.0"
+    },
+	"author": "Cartesianfox",
+	"description": "King of the squaaare !"
+
+}

@@ -1,0 +1,8 @@
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+	var socket = io.connect();
+	socket.emit('greeting_server_event', 'Greetings, Server!');
+	socket.on('server_greeting_you_event', function(data) {
+		console.log(data);
+	});
+</script>
