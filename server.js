@@ -38,6 +38,12 @@ app.get('/socket.io/socket.io.js', function (req, res) {
   res.sendfile(__dirname + '/socket.io/socket.io.js');
 });
 
+// Load css
+
+app.get('/css/modern-business.css', function (req, res) {
+  res.sendfile(__dirname + '/css/modern-business.css');
+});
+
 	/*Initialize Game datas*/
 var okMessage = "Welcome fellow.";
 
