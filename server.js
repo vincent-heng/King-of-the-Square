@@ -27,6 +27,8 @@ colors.setTheme({
   error: 'red'
 });
 
+var modulePlayer = require('./scripts/Player');
+
 	/*Link Files*/
 // Load the main page
 app.get('/', function (req, res) {
@@ -53,7 +55,8 @@ io.sockets.on('connection', function (socket) {
 		message = ent.encode(message);
 		console.log(("A player is greeting me: ".info)+(message.data));
 	});
-	socket.emit('server_greeting_you_event', okMessage);
+    var player = new modulePlayer.Player();
+	socket.emit('server_greeting_you_event', JSON.stringify(player));
 });
 
 console.log("Starting the server...".info);
