@@ -41,22 +41,22 @@ app.get('/socket.io/socket.io.js', function (req, res) {
 });
 
 // Load css
-
 app.get('/css/modern-business.css', function (req, res) {
   res.sendfile(__dirname + '/css/modern-business.css');
 });
+
+app.get('/scripts/app.js', function (req, res) {
+  res.sendfile(__dirname + '/scripts/app.js');
+});
+
 
 	/*Initialize Game datas*/
 var okMessage = "Welcome fellow.";
 
 	/*On Player Connection*/
 io.sockets.on('connection', function (socket) {
-	socket.on('greeting_server_event', function (message) {
-		message = ent.encode(message);
-		console.log(("A player is greeting me: ".info)+(message.data));
-	});
     var player = new modulePlayer.Player();
-	socket.emit('server_greeting_you_event', JSON.stringify(player));
+	socket.emit('server_player_init_event', JSON.stringify(player));
 });
 
 console.log("Starting the server...".info);

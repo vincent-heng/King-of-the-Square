@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 
 	<head>
 
@@ -27,17 +27,25 @@
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
+		
+		
+		<!-- AngularJS-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
+		<script type="text/javascript" src="/scripts/app.js"></script>
+		
+		<script src="/socket.io/socket.io.js"></script>
 	</head>
 
 	<body>
-		<div class="container">
+		<div class="container" ng-controller="IndexCtrl">
 			<div class="col-lg-3">
 				<div class="panel panel-default" id="player" style="height:300px;">
 					<div class="panel-heading">Your informations</div>
 					<div class="panel-body">
-						Your team : Blue<br/>
-						Score : 0
+						Your team : {{player.team}}<br/>
+						tokens left: {{player.nbTokens}}<br/>
+						
 					</div>
 				</div>
 			</div>
@@ -47,8 +55,8 @@
 					<div class="panel-body">Click here to give a token to your team</div>
 				</div>
 				<div class="col-lg-12">
-					<button type="button" class="btn btn-default">Blue team</button>
-					<button type="button" class="btn btn-default">Red team</button>
+					<button type="button" class="btn btn-default" ng-click="changeTeam(0)">Blue team</button>
+					<button type="button" class="btn btn-default" ng-click="changeTeam(1)">Red team</button>
 				</div>
 				
 			</div>
@@ -72,16 +80,13 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		
-		<!-- AngularJS-->
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
-		
-		<script src="/socket.io/socket.io.js"></script>
+
+
+
 		<script type="text/javascript">
 			var socket = io.connect();
-			socket.emit('greeting_server_event', 'Greetings, Server!');
-			socket.on('server_greeting_you_event', function(data) {
-				console.log(data);
+			socket.on('server_player_init_event', function(data) {
+				console.log(data); // Todo : link socket with angular, in other words : $scope.player = data
 			});
 		</script>
 	</body>
