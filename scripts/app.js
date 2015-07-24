@@ -8,26 +8,60 @@ app.config(function($routeProvider){
 	});
 });
 
-app.controller("IndexCtrl", function($scope){
-	var defaultTeam = 0;
+app.factory('socket', function ($rootScope) {
+  var socket = io.connect();
+  return {
+    on: function (eventName, callback) {
+      socket.on(eventName, function () {  
+        var args = arguments;
+        $rootScope.$apply(function () {
+          callback.apply(socket, args);
+        });
+      });
+    },
+    emit: function (eventName, data, callback) {
+      socket.emit(eventName, data, function () {
+        var args = arguments;
+        $rootScope.$apply(function () {
+          if (callback) {
+            callback.apply(socket, args);
+          }
+        });
+      })
+    }
+  };
+});
+
+app.controller("IndexCtrl", function($scope, socket){
+	// Socket listeners
+	// ================
+	socket.on('server_player_init_event', function(data) {
+		setPlayer(data);
+	});
 	
+	// Internal functions
+	// ==================
+	var defaultTeam = 0;
 	var teams = {0:"Blue", 1:"Red"};
 	
-	$scope.setPlayer = function(player) {
+	var setPlayer = function(player) {
 		$scope.player = player;
-		$scope.player.team = teams[defaultTeam];
+		changePlayerTeam(defaultTeam);
 	}
 	
-	$scope.setGame = function(game) {
+	var setGame = function(game) {
 		$scope.game = game;
 	}
 	
-	$scope.changeTeam = function(idTeam) {
+	var changePlayerTeam = function(idTeam) {
 		if (teams[idTeam] != undefined) {
 			$scope.player.team = teams[idTeam];
 		}
 	}
 	
-	// On test purpose
-	$scope.setPlayer({nbTokens:1});
+	// Methods published to the scope
+	// ==============================
+	$scope.changeTeam = function(idTeam) {
+		changePlayerTeam(idTeam);
+	}
 });

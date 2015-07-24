@@ -56,7 +56,7 @@ var okMessage = "Welcome fellow.";
 	/*On Player Connection*/
 io.sockets.on('connection', function (socket) {
     var player = new modulePlayer.Player();
-	socket.emit('server_player_init_event', JSON.stringify(player));
+	socket.emit('server_player_init_event', player);
 });
 
 console.log("Starting the server...".info);
